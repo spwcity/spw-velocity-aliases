@@ -1,0 +1,7 @@
+servers:
+  test:
+    - t
+    - test
+  games:
+    - g
+    - games
