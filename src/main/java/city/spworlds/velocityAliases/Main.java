@@ -43,9 +43,7 @@ public final class Main extends JavaPlugin implements Listener {
     }
 
     private void registerCommands() {
-        getLogger().info(getConfig().getValues(true).get("servers").toString());
         List<?> servers = (List<?>) getConfig().getValues(true).get("servers");
-        getLogger().info(servers.toString());
 
         for (Object server_a : servers) {
             Map<?, ?> server = (Map<?, ?>) server_a;
