@@ -4,10 +4,3 @@ main: city.spworlds.velocityAliases.Main
 api-version: 1.18
 prefix: SPW Velocity Aliases
 authors: [ _Teleport ]
-commands:
-  test: {}
-  games: {}
-  lobby: {}
-  t: {}
-  g: {}
-  l: {}

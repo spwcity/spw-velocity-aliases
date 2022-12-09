@@ -9,6 +9,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.*;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
+
+
 public final class Main extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
@@ -29,6 +43,7 @@ public final class Main extends JavaPlugin implements Listener {
     }
 
     private void registerCommands() {
+        getLogger().info(getConfig().getValues(true).get("servers").toString());
         List<?> servers = (List<?>) getConfig().getValues(true).get("servers");
         getLogger().info(servers.toString());
 
@@ -39,7 +54,9 @@ public final class Main extends JavaPlugin implements Listener {
 
             for (Object command_a : commands) {
                 String command = command_a.toString();
-                new VelocityConnectCommandBase(this, getCommand(command), keys[0].toString());
+
+
+                new VelocityConnectCommandBase(this, command, keys[0].toString());
 
                 getLogger().info("Registered command '" + command + "' to server '" + keys[0].toString() + "'");
             }

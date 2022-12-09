@@ -1,21 +1,33 @@
 package city.spworlds.velocityAliases.command;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractCommand implements CommandExecutor, TabCompleter {
+public abstract class AbstractCommand extends Command implements CommandExecutor, TabCompleter {
+    private CommandExecutor commandExecutor;
+    private TabCompleter tabCompleter;
 
-    public AbstractCommand(PluginCommand pluginCommand) {
-        assert pluginCommand != null;
-        pluginCommand.setExecutor(this);
-        pluginCommand.setTabCompleter(this);
+    public AbstractCommand(String name) {
+        super(name);
+        this.setExecutor(this);
+        this.setTabCompleter(this);
     }
 
-    public abstract void execute(CommandSender sender, String label, String[] args);
+    public void setExecutor(CommandExecutor executor) {
+        commandExecutor = executor;
+    }
+
+    public void setTabCompleter(TabCompleter completer) {
+        tabCompleter = completer;
+    }
+
+    public abstract boolean execute(CommandSender sender, String label, String[] args);
 
     public List<String> complete(CommandSender sender, String[] args) {
         return null;
@@ -42,4 +54,18 @@ public abstract class AbstractCommand implements CommandExecutor, TabCompleter {
         }
         return result;
     }
+
+    public void register() {
+        try {
+            final Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+
+            bukkitCommandMap.setAccessible(true);
+            CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
+
+            commandMap.register(getName(), this);
+        }catch (IllegalAccessException | NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -1,7 +1,7 @@
 servers:
-  test:
+  - test:
     - t
     - test
-  games:
+  - games:
     - g
     - games
